@@ -17,7 +17,7 @@
 ::
 ++  on-init
   ^-  (quip card _this)
-  =/  launcha  [%launch-action !>([%add %pokedex [[%basic 'Pokédex' '/~pokedex/img/tile.png' '~pokedex'] %.y]])]
+  =/  launcha  [%launch-action !>([%add %pokedex [[%basic 'Pokédex' '/~pokedex/img/tile.png' '/~pokedex'] %.y]])]
   =/  filea  [%file-server-action !>([%serve-dir /'~pokedex' /app/pokedex %.n %.n])]
   :_  this
   :~  [%pass /srv %agent [our.bol %file-server] %poke filea]
