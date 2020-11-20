@@ -1,7 +1,4 @@
 /+  *server, default-agent
-:: /*  tile-js  %js  /app/pokedex/js/tile/js
-:: =/  tile-js  (as-octs:mimes:html tile-js)
-::
 |%
 +$  card  card:agent:gall
 +$  versioned-state
@@ -20,8 +17,7 @@
 ::
 ++  on-init
   ^-  (quip card _this)
-  =/  launcha  [%launch-action !>([%add %pokedex [[%basic 'Pokédex' '/~pokedex/img/tile.png' ''] %.y]])]
-  :: =/  launcha  [%launch-action [%pokedex /pokedextile '/~pokedex/js/tile.js']]
+  =/  launcha  [%launch-action !>([%add %pokedex [[%basic 'Pokédex' '/~pokedex/img/tile.png' '~pokedex'] %.y]])]
   =/  filea  [%file-server-action !>([%serve-dir /'~pokedex' /app/pokedex %.n %.n])]
   :_  this
   :~  [%pass /srv %agent [our.bol %file-server] %poke filea]
@@ -41,11 +37,6 @@
         [%pass /[pokemon] %arvo %i %request (request pokemon) *outbound-config:iris]~
       ~&  u.saved-pokemon
       [%give %fact [/primary]~ %json !>((pairs:enjs:format ~[[%sprite s+u.saved-pokemon]]))]~
-    :: %handle-http-request
-    ::     =+  !<([eyre-id=@ta =inbound-request:eyre] vase)
-    ::     %+  give-simple-payload:app  eyre-id
-    ::     %+  require-authorization:app  inbound-request
-    ::     handle-http-request
   ==
   ::
   ++  request
@@ -55,14 +46,6 @@
     =/  url     (crip (weld "https://pokeapi.co/api/v2/pokemon/" (trip pokemon)))
     =/  header  ~[['Accept' 'application/json']]
     [method url header ~]
-  ::
-  :: ++  handle-http-request
-  ::   |=  =inbound-request:eyre
-  ::   ^-  simple-payload:http
-  ::   =/  url  (parse-request-line url.request.inbound-request)
-  ::   ?+  site.url  not-found:gen
-  ::     [%'~pokedex' %js %tile ~]  (js-response:gen tile-js)
-  ::   ==
   --
 ::
 ++  on-arvo
